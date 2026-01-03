@@ -52,8 +52,10 @@ server.use("/api/v1/courses", CourseRoute)
 
 server.use("/api/v1/auth", AuthRoute);
 
+const DB_NAME = process.env.DB_NAME
+const DB_CONNECTION = process.env.DB_CONNECTION
 
-mongoose.connect("mongodb://localhost:27017/c17").then(() => {
+mongoose.connect(DB_CONNECTION + DB_NAME).then(() => {
     console.log("db connected successfully");
 })
 

@@ -1,8 +1,9 @@
-const SECRET_PASSWORD = "asdf1234"; // is this good ? 
+require('dotenv').config()
+const SECRET_PASSWORD = process.env.SECRET_PASSWORD; 
 
 
 
-function AuthMiddleware(req, res, next) {
+function PassowrdAuthMiddleware(req, res, next) {
     const headers = req.headers;
     const authorization = headers["authorization"]; // asdf1235423523523
 
@@ -19,4 +20,4 @@ function AuthMiddleware(req, res, next) {
 }
 
 
-module.exports = AuthMiddleware
+module.exports = PassowrdAuthMiddleware

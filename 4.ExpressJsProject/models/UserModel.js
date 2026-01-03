@@ -29,7 +29,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["male", "female", "other"],
     },
-
+    role: {
+        type: String,
+    }
   },
   {
     timestamps: true, // adds createdAt & updatedAt
