@@ -20,5 +20,4 @@ function GetCourseByID(req, res) {
 
 }
 
-
 module.exports = {CreateCourse, GetAllCourses, GetCourseByID}

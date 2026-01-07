@@ -8,19 +8,15 @@ function adminCheck(role) {
         if(roleOfUser === role) {
             next();
         } else {
-            res.status(403).json({
+            res.status(409).json({
                 message: "not allowed"
             })
         }
     }
 
     return validator;
-
-
-
-
-
 }
+
 
 
 module.exports = adminCheck;
