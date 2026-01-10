@@ -1,5 +1,5 @@
 function sumTwoNumbers(a, b) {
-    return a + b + 9;
+    return a + b;
 }
 
 module.exports = {

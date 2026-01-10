@@ -16,6 +16,18 @@ mongoose.connect(DB_CONNECTION + DB_NAME).then(() => {
 })
 
 
+
+// if we forget to handle the exception in the application this will do it for all the exceptions
+
+// process.on('uncaughtException', (err) => {
+//   // Log the error, send notification, perform cleanup, etc.
+//   console.error('Uncaught Exception:', err.message);
+//   // It is highly recommended to exit the process after an uncaught exception
+//   // to avoid running in an unstable state. A process manager should restart the app.
+//   process.exit(1); 
+// })
+
+
 server.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
