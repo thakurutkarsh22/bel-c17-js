@@ -1,0 +1,50 @@
+name: Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    # This spins up a real MongoDB instance for your tests to use
+    services:
+      mongodb:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
+
+    strategy:
+      matrix:
+        node-version: [ 18.x ]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: '4.ExpressJsProject/package-lock.json'
+
+    - name: Install dependencies
+      run: |
+        cd 4.ExpressJsProject
+        npm install
+
+    - name: Run tests
+      run: |
+        cd 4.ExpressJsProject
+        npm test
+      env:
+        # These reference the Secrets you must add to your GitHub Repo Settings
+        PORT: 8089
+        SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+        DB_NAME: c17
+        DB_CONNECTION: mongodb://localhost:27017/
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
