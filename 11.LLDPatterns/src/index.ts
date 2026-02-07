@@ -36,5 +36,66 @@
  */
 
 
+// kiss example 
+// BAD
+const grade = (s:number) => s>= 90 ? 'A' : s>=80 ? 'B' : s>=70 ? 'C' : 'F';
+
+const result = grade(70);
+console.log(result, 'result');
+
+
+// GOOD 
+function getGrade(s:number) {
+  if(s >= 90) {
+    return "A";
+  }
+}
+
+
+// composition over inheritance
+
+
+// ISA, HAS 
+
+// class Vehicle {
+
+// }
+
+
+// class Tata extends Vehicle {} // IS-a. // tata is a vehicle.'
+
+
+// // Has a 
+
+// class Human {
+
+//   age;
+//   gender;
+
+//   constructor() {
+//     this.age = 12;
+//     this.gender = 'male';
+//   }
+
+
+//   canEat() {}
+//    canSleep () {}
+
+// }
+
+
+
+// Law of demeter 
+
+// class Order{
+
+//   getCustomer() {
+//     if(customer != null && customer.address)
+//     return this.customer?.address?.city?.name; // this is bad
+//   }
+// }
+
+
+// solution: you can create cusomer class adress class and city class 
 
 

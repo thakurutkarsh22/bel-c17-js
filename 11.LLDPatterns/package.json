@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "ts-node src/1.SOLID.ts"
+    "dev": "ts-node src/2.Patterns.ts"
   },
   "keywords": ["typescript", "oop", "classes", "inheritance"],
   "author": "",
