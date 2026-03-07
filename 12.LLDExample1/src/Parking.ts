@@ -41,7 +41,8 @@ interface IPricingStratergy {
 
 export class CarPricing implements IPricingStratergy {
     calculate(hours: number): number {
-        return Math.ceil(this.getFare() * hours);
+        const totalFare = Math.ceil(this.getFare() * hours);
+        return totalFare < this.getFare() ? this.getFare() : totalFare;
     }
     getFare(): number {
        return 20;
@@ -301,7 +302,7 @@ export class ParkingSpot {
     park(vehicle: Vehicle): boolean {
         if(this.isAvailable()) {
             this.vehicle = vehicle;
-            this.parkingTypeSpot = this.vehicle.type
+            this.parkingTypeSpot = this.vehicle.type // this doing at runtime is bad 
             // console.log("vehicle parked", vehicle); this might loook like good desgin but class is not NOT CONCRETE about parking spot
             return true;
         }
@@ -325,4 +326,19 @@ export class ParkingSpot {
 
 
 
+// IMPROVEMENTS : 
+/**
+ * 1. // initialize the parking lot
+        for(let i=1; i<=50; i++) {
+            this.spots.push(new ParkingSpot(`SPOT-${i}`))
+        }
 
+        this is rigid we should do this via dependency injection 
+
+    2. types of spot.
+    3. Ticket encapulation ticket.id ❌, ticket.getId() ✅
+    4. thread save any variable++
+    5. total fare when car is unparked in 2 seconds is comming out to be.0, but there should be min money that we need to charge  
+
+ * 
+ */
