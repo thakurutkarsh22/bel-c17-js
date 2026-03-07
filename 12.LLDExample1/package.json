@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "ts-node src/Parking.ts"
+    "dev": "ts-node src/Parking.ts",
+    "test:parking": "ts-node src/ParkingClient.ts"
   },
   "keywords": ["typescript", "oop", "classes", "inheritance"],
   "author": "",

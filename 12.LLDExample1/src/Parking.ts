@@ -1,5 +1,5 @@
 
-enum VehicleType {
+export enum VehicleType {
   CAR = 'CAR',
   BIKE = 'BIKE',
   TRUCK = 'TRUCK'
@@ -7,7 +7,7 @@ enum VehicleType {
 
 // Patter 1: Factory : - we will generate the different classes of vehicle 
 
-class Vehicle {
+export class Vehicle {
     public type: VehicleType;
     plateNumber: string;
     constructor(
@@ -24,7 +24,7 @@ class Vehicle {
 // class Bike extends Vehicle {}
 // class Truck extends Vehicle {}
 
-class VehicleFactory {
+export class VehicleFactory {
     static createVehicle(type: VehicleType, plateNumber: string): Vehicle {
         return new Vehicle(type, plateNumber);
     }
@@ -39,7 +39,7 @@ interface IPricingStratergy {
     getSurcharge(): number;
 }
 
-class CarPricing implements IPricingStratergy {
+export class CarPricing implements IPricingStratergy {
     calculate(hours: number): number {
         return Math.ceil(this.getFare() * hours);
     }
@@ -51,7 +51,7 @@ class CarPricing implements IPricingStratergy {
     }
 }
 
-class BikePricing implements IPricingStratergy {
+export class BikePricing implements IPricingStratergy {
     calculate(hours: number): number {
         return Math.ceil(this.getFare() * hours);
     }
@@ -117,14 +117,14 @@ interface Observer {
 }
 
 
-class DisplayBoard implements Observer {
+export class DisplayBoard implements Observer {
     name: string
     constructor(name: string) {
         this.name = name;
     }
 
     update(message: string): void {
-        console.log('Display board ', this.getName(), ' got the message', message);
+        console.log('🚨 Display board ', this.getName(), ' got the message', message);
     }
 
     getName(): string {
@@ -132,14 +132,14 @@ class DisplayBoard implements Observer {
     }
 }
 
-class MobileNotification implements Observer {
+export class MobileNotification implements Observer {
     name: string
     constructor(name: string) {
         this.name = name;
     }
 
     update(message: string): void {
-        console.log('mobile notification ', this.getName(), ' got the message', message);
+        console.log('🚨 mobile notification ', this.getName(), ' got the message', message);
     }
 
     getName(): string {
@@ -150,7 +150,7 @@ class MobileNotification implements Observer {
 // Pattern 4. -> Singleton pattern 
 
 // Parking Manager -> 
-class ParkingLot {
+export class ParkingLot {
     // singleton 
     private static instance: ParkingLot;
 
@@ -189,7 +189,7 @@ class ParkingLot {
         const spot = this.spots.find(s => s.isAvailable()); // this should give undefined , ParkingSpot1 ,2 ,3
 
         if(!spot) {
-            console.log("parking lot is full");
+            console.log("🚨🚨🚨🚨🚨🚨 parking lot is full go away 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨");
             return null;
         }
 
@@ -219,12 +219,13 @@ class ParkingLot {
     // 4. unparking 
 
     unpark(
-        ticketId: String
+        ticketId: string
     ) {
         const ticket = this.tickets.get(ticketId);
 
         if(!ticket) {
-            console.log("no tickets here");
+            console.log("no tickets here :: ", ticketId);
+            return;
         }
 
         // calculate price with stratergy 
@@ -237,29 +238,28 @@ class ParkingLot {
             console.log("vehicle departed", unparkedVehicle, "from spot", spot, "with price", price)
         }
 
+        // delete the ticketId from collections of tickets
+        this.tickets.delete(ticketId);
+
         // notifiy 
         if(ticket) {
-            this.Observers.forEach(observer => observer.update(`Vehicle with plate number ${ticket.vehicle.plateNumber} departed from spot ${ticket.spot} with price ${price}`))
+            this.Observers.forEach(observer => observer.update(`Vehicle with plate number ${ticket.vehicle.plateNumber} departed from spot ${ticket.spot.getId()} with price ${price}`))
         }
+
+        return price;
 
     }
 
-
-
-
-
-
-
 }
 
-class Ticket {
-    id: String;
+export class Ticket {
+    id: string;
     vehicle: Vehicle;
     spot: ParkingSpot;
     entryTime: Date;
     pricingStrategy: IPricingStratergy;
 
-    constructor(id: String, vehicle: Vehicle, spot: ParkingSpot, entryTime: Date, pricingStrategy: IPricingStratergy) {
+    constructor(id: string, vehicle: Vehicle, spot: ParkingSpot, entryTime: Date, pricingStrategy: IPricingStratergy) {
         this.id = id;
         this.vehicle = vehicle;
         this.spot = spot;
@@ -280,7 +280,7 @@ class Ticket {
 
 }
 
-class ParkingSpot {
+export class ParkingSpot {
     private id: String;
     private parkingTypeSpot = "bike"
     // private isAvailable: boolean = true;
@@ -291,12 +291,17 @@ class ParkingSpot {
         this.id = id;
     }
 
+    getId() {
+        return this.id;
+    }
+
     // usage
     // const isParked = park(new Vehicle(VehicleType.CAR, "UP14CD1234"))
     // // isParked = true -> log it
     park(vehicle: Vehicle): boolean {
         if(this.isAvailable()) {
             this.vehicle = vehicle;
+            this.parkingTypeSpot = this.vehicle.type
             // console.log("vehicle parked", vehicle); this might loook like good desgin but class is not NOT CONCRETE about parking spot
             return true;
         }
